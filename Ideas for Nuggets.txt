@@ -1,0 +1,10 @@
+1. Command-Response - instrument only sends data as a response to recieving a command
+2. Streaming Data - instrument constantly sends data at a set rate, will recieve commands independently
+3. Intermittent Data - same as previous except data is sent "randomly", usually when something gets changed
+4. ASCII vs Hex/Binary communications
+5. Tips/Tricks
+	Show radix/display style
+		Hex vs Decimal
+		/Codes vs Normal
+	Radix on Case Structure
+6. Only show example code as actors?

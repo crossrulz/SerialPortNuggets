@@ -1,0 +1,17 @@
+So you have an instrument to communicate with over a serial port.  The term instrument could be a microcontroller, Arduino, or any box instrument.  This instrument uses an ASCII command structure (you can easily read it when viewed in notepad) and only sends you data when commanded to.  This is the setup that I am going to demonstrate here.  This is by far the most common form of communications with an instrument as far as command structure.  This setup is often done with GPIB and Ethernet instruments as well.
+
+So key points here:
+1. Because of the ASCII format, a termination character is almost always used.  The most common termination character I have seen is a Line Feed (LF, 0xA, 10, \n).  The next common termination character I have seen is a Carriage Return (CR, 0xD, 13, \r), and I have only seen this done with a few instruments.
+2. The reading of instrument data is very predictable since the instrument only sends data when you tell it to do so.
+
+So how do we set up to communicate with this instrument?
+
+1. Using the VISA Configure Serial Port, I leave the Enable Termination Character boolean input unwired to leave the default of TRUE.  For this instrument, I am using the Line Feed as the termination character, so I can also leave that unwired to keep the default.
+
+2.  Because most instruments that send the termination character also want to have a termination character (almost always the same character) sent to them, I am using a property node to set the ASRL End Out to "TermChar".  What this does is make the VISA Write add the termination character to the end of all of my messages I send.  What this does is make it so that I do not have to manually add the termination character to all of my messages.  Think of it as a shortcut that eliminates one more thing that you now do not have to think about when making a new message.
+
+3.  In this example, I am using an Event Structure looking for a button's value to change.  When the button is pressed, I send the message with a VISA Write.  I then immediately start the read process.  Notice there is no Bytes At Port.  It is not needed.  Instead, we are counting on the termination character.  The way the VISA Read works is that it will stop reading when one of thee things happen: 1) the number of designated bytes are read, 2) the termination character is encountered, or 3) the timeout has occured.  So as long as you tell the VISA Read to read more bytes than the message will be and the message completes within 10 seconds (the default timeout), the read will stop when it reads the termination character.
+
+4.  I am using the trick of using the Front Panel Closed filter event tell the VI to shutdown.  As part of this, I close the serial port.
+
+That is all that is needed for this type of instrument.
