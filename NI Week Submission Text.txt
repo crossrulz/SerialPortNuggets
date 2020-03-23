@@ -1,0 +1,8 @@
+Abstract Description
+Too many users look to the Simple Serial Write Read example in LabVIEW and then struggle to achieve solid, robust communication with their instrument. This is because the example does not properly discuss or handle any of the real-world communication schemes instruments use. At this session, explore these schemes and learn how to handle each case.
+
+Target Audience
+Anybody who needs to communicate with a serial instrument or other microcontroller, such as an Arduino.
+
+Background Information
+The forums are constantly being bombarded with people, typically students, using the Simple Serial Write Read example and being unable to get their code to properly talk with their Arduino, some other microcontroller, or instrument. The biggest failure is the use of the Bytes At Port property, which almost always causes issues. I have derived six possible ways an instrument will communicate based on two criteria: (1) binary/raw/hex vs ASCII and (2) when the data is sent. The goal is to discuss how each of these works and show examples of how to handle each one.
